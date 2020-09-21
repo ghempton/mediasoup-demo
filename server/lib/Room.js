@@ -46,7 +46,7 @@ class Room extends EventEmitter
 				interval   : 800
 			});
 
-		const bot = await Bot.create({ mediasoupRouter });
+		const bot = null;
 
 		return new Room(
 			{
@@ -889,12 +889,14 @@ class Room extends EventEmitter
 				}
 
 				// Create DataConsumers for bot DataProducer.
-				this._createDataConsumer(
-					{
-						dataConsumerPeer : peer,
-						dataProducerPeer : null,
-						dataProducer     : this._bot.dataProducer
-					});
+				if (this._bot) {
+					this._createDataConsumer(
+						{
+							dataConsumerPeer: peer,
+							dataProducerPeer: null,
+							dataProducer: this._bot.dataProducer
+						});
+				}
 
 				// Notify the new Peer to all other Peers.
 				for (const otherPeer of this._getJoinedPeers({ excludePeer: peer }))
@@ -936,7 +938,12 @@ class Room extends EventEmitter
 				{
 					webRtcTransportOptions.enableUdp = false;
 					webRtcTransportOptions.enableTcp = true;
+				} else {
+					webRtcTransportOptions.enableUdp = true;
+					webRtcTransportOptions.enableTcp = false;
 				}
+
+				logger.debug('createWebRtcTransport', webRtcTransportOptions);
 
 				const transport = await this._mediasoupRouter.createWebRtcTransport(
 					webRtcTransportOptions);
