@@ -3,18 +3,19 @@
 # GRANT ALL PRIVILEGES ON DATABASE "dev" to docker_compose;
 # GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO docker_compose;
 
-version: '3.3'
+version: "3.3"
 services:
   mediasoup-demo-server:
     image: mediasoup-demo:latest
     ports:
       - "4443:4443"
-      - "2000-2020:2000-2020"
+      - "2000-2020:2000-2020/udp"
+      - "2000-2020:2000-2020/tcp"
     environment:
       INTERACTIVE: "false"
       PROTOO_LISTEN_PORT: 4443
       MEDIASOUP_LISTEN_IP: 0.0.0.0
-      MEDIASOUP_ANNOUNCED_IP:  192.168.86.58
+      MEDIASOUP_ANNOUNCED_IP: "${MEDIASOUP_ANNOUNCED_IP}"
       MEDIASOUP_MIN_PORT: 2000
       MEDIASOUP_MAX_PORT: 2020
       DEBUG: "mediasoup:INFO* *WARN* *ERROR*"

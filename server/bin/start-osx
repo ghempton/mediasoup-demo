@@ -1,0 +1,6 @@
+#!/bin/bash
+
+export MEDIASOUP_ANNOUNCED_IP=$(ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}')
+
+docker-compose rm # make sure we don't use the old image with the working mediasoup version
+docker-compose up
