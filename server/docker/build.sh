@@ -22,6 +22,7 @@ echo ">>> Running docker build ${EXTRA_ARGS}"
 docker build \
 	${EXTRA_ARGS} \
 	--tag mediasoup-demo:latest \
+	--no-cache \
 	.
 
 echo ">>> Image built"
