@@ -1,12 +1,9 @@
-FROM node:10 AS stage-one
+FROM node:12-alpine AS stage-one
 
 WORKDIR /service
 
 # Install DEB dependencies and others.
-RUN \
-	set -x \
-	&& apt-get update \
-	&& apt-get install -y net-tools build-essential valgrind
+RUN apk add --no-cache alpine-sdk python py-pip linux-headers
 
 COPY package.json .
 COPY yarn.lock .
